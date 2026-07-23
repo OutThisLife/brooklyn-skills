@@ -19,7 +19,8 @@ Get an existing PR/MR **rebased and green**. No feature work. No drive-bys.
 4. Push (`--force-with-lease` if rebase rewrote).
 5. Watch CI via `gh pr checks` / `glab ci status`. Fix **failures caused by the
    rebase or existing breakage on this branch** — nothing else.
-6. Report: branch tip, checks status, URL.
+6. Report: branch tip, checks status, and the PR/MR as a markdown link
+   (`[#N](full-url)`). Always link the number; always include the URL.
 
 ## Scope lock
 

@@ -57,6 +57,8 @@ git fetch origin pull/<N>/head:refs/remotes/origin/pr-<N>   # GitHub
 5. Return a verdict:
 
 ```markdown
+**PR/MR:** [#N](https://…/pull/N)   ← always a markdown link, never bare #N
+
 **Verdict: approve | supersede | request-changes | close-as-wrong-premise**
 
 **Worktree:** `…` · `<branch>`
@@ -74,6 +76,9 @@ git fetch origin pull/<N>/head:refs/remotes/origin/pr-<N>   # GitHub
 ### Recommend
 … (ask before acting)
 ```
+
+Every PR/MR number in triage chat or Discord drafts → full markdown link.
+Wrap each finished PR with its URL.
 
 ## Trusted / internal authors
 

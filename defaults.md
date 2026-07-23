@@ -42,6 +42,13 @@ the baseline that stops you from re-teaching the same things every session.
   commit unless asked. (→ `pr-update`)
 - CI green is part of "done." Don't report a task complete while checks are red;
   if a failure is a known upstream flake, say so with the run link. (→ `pr-green`)
+- **ALWAYS link PR/MR numbers.** In chat, comments, summaries, and tweets: never
+  bare `#123`, `PR 123`, or `MR !123`. Use a markdown link with the full forge
+  URL, e.g. `[#123](https://github.com/org/repo/pull/123)` /
+  `[!123](https://gitlab.com/…/merge_requests/123)`.
+- **ALWAYS end a finished set of work with the PR/MR link.** If the branch has
+  (or just got) a PR/MR, the wrap-up must include that URL. No "done" without it.
+  (→ `pr-update`)
 
 ### Reviews
 - Addressing review comments (bots or humans): fix or reply, then verify the

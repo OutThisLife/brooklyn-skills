@@ -45,4 +45,5 @@ GitLab: `glab mr note` + discussions API.
 Re-query the forge API for open/unresolved threads and confirm none remain
 (except ones the user explicitly deferred) — don't trust that a reply resolved
 them, verify. Fail closed: if any thread is still open, you're not done. Latest
-push is up; give a short summary of fixed vs replied-through.
+push is up; give a short summary of fixed vs replied-through; end with the
+PR/MR as a markdown link (`[#N](full-url)`). Never bare `#N`.

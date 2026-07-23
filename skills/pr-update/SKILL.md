@@ -25,7 +25,15 @@ as it is now. Do not strip media from an existing description.
    exactly (see below). Then rewrite text so Summary / Test plan (or the
    repo's usual sections) stay accurate.
 5. Apply with `gh pr create` / `gh pr edit` (or `glab` equivalents).
-6. Return the PR/MR URL.
+6. End with the PR/MR as a markdown link (number + full URL). Always.
+
+## Linking (hard rule)
+
+- Every PR/MR number you mention → markdown link with the full forge URL
+  (`[#123](https://github.com/org/repo/pull/123)` / GitLab `!` equivalent).
+  Never bare `#123` / `PR 123` / `MR !123`.
+- After create or update, the final message must include that link. No "done"
+  without it.
 
 ## Title + body
 

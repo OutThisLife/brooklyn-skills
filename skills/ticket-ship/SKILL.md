@@ -20,8 +20,10 @@ Drive an assigned ticket end to end.
 5. Move the ticket to the right state (e.g. In Review / Test).
 6. Draft the stakeholder update (Slack/Jira comment) — short, `no-tropes`. Don't
    send unless asked.
+7. End with the PR/MR as a markdown link (`[#N](full-url)`). Always.
 
 ## Don't
 
 - Assume the base branch — verify the org's rule.
 - Mark the ticket done while CI is red or review threads are open.
+- Mention a PR/MR number without linking it.
