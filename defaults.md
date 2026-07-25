@@ -58,6 +58,13 @@ the baseline that stops you from re-teaching the same things every session.
 ### Scope discipline
 - "Audit" / "don't touch code" / a plain question means investigate and answer
   first; write no code until told to go.
+- Before answering "is this possible / how should this work / what do other
+  people do", look it up. The project's own documents of record come first
+  (tickets, PRD, Figma, `plans/`, git history, vendored source), then prior art
+  on GitHub, arXiv, and vendor docs. Cite URLs and mark anything unverified.
+  (→ `research`)
+- Don't be lazy. Finish the whole set that was asked for — every item, every
+  dirty file, every unresolved review thread — not a timid subset of it.
 - Don't act on assumed scope. Report only the work actually requested and done,
   not work you imagined.
 - When runtime or an environment is broken, check logs/observability first, then
