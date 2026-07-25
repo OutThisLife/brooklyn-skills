@@ -14,8 +14,13 @@ Two halves, in this order: the **documents of record** for this project, then
 **prior art** outside it. Answering from memory and calling it research is the
 thing this skill is here to stop.
 
-Research gates code. Unless told otherwise, finish the lookup and report the
-findings before editing anything (→ `audit-only`).
+Match the shape of the ask:
+
+- **A question** ("is this possible", "are we doing this right", "don't touch
+  code"): look it up, report, stop. No edits until told to go (→ `audit-only`).
+- **Part of the work** ("research and fix", "sleuth GitHub and iterate until
+  it's right"): research inside the loop. Look, apply, re-check, and say what
+  each pass was based on — don't halt the loop to file a report.
 
 ## Pick a depth and say it
 
@@ -34,9 +39,11 @@ applicability for outside repos.
 
 Exhaust what the project already states before searching the web.
 
-- Tickets and specs: Jira/Linear, PRD, MTD, QA feedback docs, the Slack or
-  Discord thread that started it.
-- `plans/<topic>/*.md`, `AGENTS.md`, `CONTEXT.md`, README, ADRs.
+- Tickets and specs: the tracker issue, the PRD or spec, QA feedback, the Slack
+  or Discord thread that started it — whatever this project treats as the
+  record.
+- The repo's own planning docs: `plans/`, `docs/`, ADRs, `AGENTS.md`,
+  `CONTEXT.md`, README.
 - Figma dev mode when the question is visual. The design is the source of truth
   (→ `figma-implement`).
 - The repo itself: `git log -S<symbol>` and `git log -p` for why the code got
@@ -80,4 +87,5 @@ than stating it flat.
 - Hand back a link dump. The deliverable is the recommendation, with the
   sources under it.
 - Drop the research on the floor. When it drives a change, the PR description
-  carries what was found and why (→ `pr-update`).
+  carries what was found and why (→ `pr-update`). When it's a big survey with
+  no PR yet, write it into the repo's planning docs so it outlives the chat.
