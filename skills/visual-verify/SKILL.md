@@ -1,9 +1,9 @@
 ---
 name: visual-verify
 description: >-
-  Prove a UI or theme change actually works by running the surface and checking
-  it against the reference before claiming done. Use after any visual/theme
-  change, or when the user says it's still broken or not matching.
+  Prove a visual change by looking at the rendered surface — screenshot it and
+  compare to the reference before saying done. Use after any UI, layout, theme,
+  or color change, or when the user says it still looks wrong or doesn't match.
 ---
 
 # Visual Verify

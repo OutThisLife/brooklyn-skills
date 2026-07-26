@@ -1,9 +1,10 @@
 ---
 name: clean
 description: >-
-  Polish code with KISS/DRY and local style before a PR handoff. Use when the
-  user asks to clean up, or automatically before creating/updating/automerging a
-  PR or moving to the next one. Does not mean run the test suite.
+  Polish your own diff by hand with KISS/DRY and local style — the pre-handoff
+  pass, not a test run and not a subagent sweep. Use for /clean, "clean it up",
+  "tidy this", and automatically before creating, updating, or automerging a PR
+  or moving to the next one.
 ---
 
 # Clean

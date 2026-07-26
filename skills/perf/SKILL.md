@@ -1,9 +1,9 @@
 ---
 name: perf
 description: >-
-  Investigate and fix a performance problem with the profile-driven loop:
-  baseline, profile, find the hot path, fix, re-measure. Use for /perf, slow
-  code, or optimization work.
+  The general profile-driven perf loop for any language or runtime: baseline,
+  profile, fix the real hot path, re-measure. Use for /perf, "this is slow",
+  or optimization work.
 ---
 
 # Perf
