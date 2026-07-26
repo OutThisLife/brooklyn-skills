@@ -25,15 +25,10 @@ as it is now. Do not strip media from an existing description.
    exactly (see below). Then rewrite text so Summary / Test plan (or the
    repo's usual sections) stay accurate.
 5. Apply with `gh pr create` / `gh pr edit` (or `glab` equivalents).
-6. End with the PR/MR as a markdown link (number + full URL). Always.
-
-## Linking (hard rule)
-
-- Every PR/MR number you mention → markdown link with the full forge URL
-  (`[#123](https://github.com/org/repo/pull/123)` / GitLab `!` equivalent).
-  Never bare `#123` / `PR 123` / `MR !123`.
-- After create or update, the final message must include that link. No "done"
-  without it.
+6. End with the PR/MR as a markdown link — the number **and** the full forge
+   URL (`[#123](https://github.com/org/repo/pull/123)`, GitLab `!` equivalent).
+   Never a bare `#123`. This is the one place the rule is written down; the
+   other skills just follow it.
 
 ## Title + body
 
@@ -61,6 +56,13 @@ Shape the branch's commits as part of opening/refreshing the PR.
   No "WIP" / "fix stuff".
 - Rebuild with soft reset + path-staged commits (no `git rebase -i` — needs a
   TTY). Show the final `git log --oneline <default>..HEAD` before force-push.
+  Two traps in that recipe:
+  - Soft-reset to the branch's **real base SHA** (`git merge-base HEAD origin/<default>`),
+    never to `origin/<default>` itself — it moves mid-task and will stage other
+    people's commits as yours.
+  - `git reset <base> -- <path>` leaves that path **unstaged**, so the next
+    `git commit` silently captures its pre-edit version. Verify the content
+    landed (`git show <sha>:<path> | grep <new symbol>`) before force-push.
 - Keep authorship when reshaping others' work (`Co-authored-by` / cherry-pick),
   especially during `pr-triage` salvage.
 - Don't mix pure formatting with logic, commit secrets/`.env`, or rewrite
@@ -95,8 +97,8 @@ title) rather than publishing a media-stripped description.
 
 - **In:** open PR/MR, push if needed for create, shape commits, retitle, rewrite
   description, preserve media, print URL.
-- **Out:** rebase/CI (`pr-green`), review threads (`pr-bot-reviews`),
-  triage/salvage (`pr-triage`), merging.
+- **Out:** rebase, CI, and review threads (`pr-ready`), triage/salvage
+  (`pr-triage`), merging.
 
 ## Forge cheatsheet
 

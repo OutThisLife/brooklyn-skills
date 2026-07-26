@@ -31,5 +31,4 @@ branch:
 
 - Collapse a stack by merging the default branch into the child.
 - Let the two base PRs drift apart.
-- Refer to any PR/MR in the stack by bare number — always
-  `[#N](full-url)` / GitLab equivalent, and list every PR URL when done.
+- Finish without listing every PR/MR in the stack as a link.

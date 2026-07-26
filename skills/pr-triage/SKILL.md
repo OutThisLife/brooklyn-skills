@@ -1,10 +1,10 @@
 ---
 name: pr-triage
 description: >-
-  Maintainer PR/MR triage: Discord thread intake, approve vs supersede, salvage
-  with credit, close superseded PRs/MRs and related issues, treat trusted/internal
-  authors differently. Use when starting a review batch, pasting a Discord thread
-  with a PR, or asking to salvage/supersede/close a cluster.
+  Maintainer triage on OTHER people's PRs/MRs — verdict of approve, supersede,
+  or close, salvage with credit, close the cluster. Use for a review batch, a
+  pasted Discord thread with a PR, or salvage/supersede/close asks. Not for your
+  own PR (that's pr-ready).
 ---
 
 # PR Triage
@@ -82,7 +82,7 @@ super-PR — don't emit a standalone salvage per member.
 5. Return a verdict:
 
 ```markdown
-**PR/MR:** [#N](https://…/pull/N)   ← always a markdown link, never bare #N
+**PR/MR:** [#N](https://…/pull/N)
 
 **Verdict: approve | supersede | close-as-wrong-premise**
 
@@ -103,9 +103,6 @@ super-PR — don't emit a standalone salvage per member.
 - supersede: salvage plan (reuse X, drop Y, tests Z, credit @handle)
 - close: wrong-premise comment outline
 ```
-
-Every PR/MR number in triage chat or Discord drafts → full markdown link.
-Wrap each finished PR with its URL.
 
 ## Pick the verdict (no soft exits)
 
