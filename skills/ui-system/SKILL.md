@@ -1,10 +1,11 @@
 ---
 name: ui-system
 description: >-
-  Reuse existing UI primitives, CSS vars, and DESIGN.md patterns — do not invent
-  new buttons, colors, borders, shadows, or helpers. Use for Desktop/web/TUI UI
-  work, redesigns, or when the user mentions shared primitives, tw4, or UI
-  patterns.
+  Reuse existing UI primitives, CSS vars, and DESIGN.md patterns instead of
+  inventing new buttons, colors, borders, shadows, or helpers — including when
+  implementing a Figma file, mock, or screenshot. Use for Desktop/web/TUI UI
+  work, redesigns, or when the user mentions shared primitives, tw4, Figma, or
+  UI patterns.
 ---
 
 # UI System
@@ -32,8 +33,21 @@ Reuse what the app already has. Don't invent a parallel UI kit.
   doesn't already use — match the neighboring surface exactly
 - Section chrome that nowhere else uses
 
-If there's a design (Figma, mock, screenshot), match it — spacing, contrast, and
-placement — before inventing anything. If you can't find the primitive, search
-harder or ask — don't quietly make one.
+## Working from a design
 
-While still iterating on look, also follow `ui-only` (no tsc/lint/commit yet).
+Figma file, mock, or screenshot: match it — spacing, contrast, placement —
+before inventing anything.
+
+1. Pull the design context (Figma MCP if available, else the screenshot/mock).
+2. Map it to existing primitives and tokens before building anything new.
+3. Layout and structure first, then content.
+4. Match spacing, padding, contrast, and states exactly. Check the details —
+   no white-on-white, no doubled padding, correct CTA contrast.
+5. Optimize exported assets (SVGO for SVGs).
+6. Don't approximate spacing or colors the design specifies, and don't add
+   chrome neither the design nor the app has.
+
+If you can't find the primitive, search harder or ask — don't quietly make one.
+
+While still iterating on look, follow `ui-only` (no tsc/lint/commit yet). Once
+they like it, confirm against the design with `visual-verify`.

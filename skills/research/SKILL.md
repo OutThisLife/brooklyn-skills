@@ -1,11 +1,10 @@
 ---
 name: research
 description: >-
-  Look it up before answering or building: the project's own documents of record
-  first, then external prior art (GitHub, arXiv, vendor docs, articles). Use when
-  the user says research, look it up, sleuth GitHub, "what do other people do",
-  "is that a thing", "are you sure", or asks for something that has obviously
-  been solved before.
+  Look it up before answering or building — this project's documents of record
+  first, then external prior art. Use when the user says research, look it up,
+  sleuth GitHub, "what do other people do", "is that a thing", "are you sure",
+  or asks for something that has obviously been solved before.
 ---
 
 # Research
@@ -45,7 +44,7 @@ Exhaust what the project already states before searching the web.
 - The repo's own planning docs: `plans/`, `docs/`, ADRs, `AGENTS.md`,
   `CONTEXT.md`, README.
 - Figma dev mode when the question is visual. The design is the source of truth
-  (→ `figma-implement`).
+  (→ `ui-system`).
 - The repo itself: `git log -S<symbol>` and `git log -p` for why the code got
   this way, and the vendored source in `node_modules` or site-packages instead
   of a remembered API surface.
