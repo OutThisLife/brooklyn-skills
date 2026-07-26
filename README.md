@@ -21,12 +21,25 @@ Install the pr-triage and pr-bot-reviews skills from this repository.
 The agent should copy each requested `skills/<name>/` directory as a complete
 unit so references and bundled resources remain intact.
 
+On [Hermes Agent](https://hermes-agent.nousresearch.com/docs) you can skip
+copying entirely — clone the repo and point at it, so `git pull` is the update
+path and every skill shows up as a slash command:
+
+```yaml
+# ~/.hermes/config.yaml
+skills:
+  external_dirs:
+    - ~/path/to/brooklyn-skills/skills
+```
+
 ## Always-on defaults
 
 `defaults.md` is a small set of baseline behaviors meant to be **always loaded**,
-not invoked. It's harness-agnostic: wire it into `~/.cursor/rules/defaults.mdc`
-(Cursor, with `alwaysApply: true`) or your `AGENTS.md` (Claude Code, Codex, and
-most other agents). The skills handle the deeper workflows it points to.
+not invoked. It's harness-agnostic: append it to `~/.hermes/SOUL.md`
+([Hermes Agent](https://hermes-agent.nousresearch.com/docs)), your `AGENTS.md`
+(Claude Code, Codex, and most other agents), or `~/.cursor/rules/defaults.mdc`
+(Cursor, with `alwaysApply: true`). The skills handle the deeper workflows it
+points to.
 
 ## Contents
 

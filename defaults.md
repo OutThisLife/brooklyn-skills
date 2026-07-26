@@ -6,10 +6,23 @@ the baseline that stops you from re-teaching the same things every session.
 
 ## Wire it up (always-on)
 
-- **Cursor:** copy into `~/.cursor/rules/defaults.mdc` (user-level) or
-  `.cursor/rules/defaults.mdc` (per repo), with frontmatter `alwaysApply: true`.
+- **[Hermes Agent](https://hermes-agent.nousresearch.com/docs):** append to
+  `~/.hermes/SOUL.md` — it's slot #1 of the system prompt, so this loads before
+  anything else, every session. Point Hermes at the skills too:
+
+  ```yaml
+  # ~/.hermes/config.yaml
+  skills:
+    external_dirs:
+      - ~/path/to/brooklyn-skills/skills
+  ```
+
+  Every skill then becomes a slash command, so each `(→ skill)` below is
+  literally `/clean`, `/pr-triage`, `/work`.
 - **Claude Code / Codex / most agents:** paste into your `AGENTS.md` (user-level
   or repo root).
+- **Cursor:** copy into `~/.cursor/rules/defaults.mdc` (user-level) or
+  `.cursor/rules/defaults.mdc` (per repo), with frontmatter `alwaysApply: true`.
 
 ## The defaults
 
