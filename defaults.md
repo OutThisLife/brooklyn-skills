@@ -53,8 +53,9 @@ the baseline that stops you from re-teaching the same things every session.
   changelog of your steps.
 - Split a PR into topical commits by default; don't dump everything into one
   commit unless asked. (→ `pr-update`)
-- CI green is part of "done." Don't report a task complete while checks are red;
-  if a failure is a known upstream flake, say so with the run link. (→ `pr-green`)
+- CI green and review threads resolved are both part of "done." Don't report a
+  task complete while checks are red or threads are open; if a failure is a
+  known upstream flake, say so with the run link. (→ `pr-ready`)
 - **ALWAYS link PR/MR numbers.** In chat, comments, summaries, and tweets: never
   bare `#123`, `PR 123`, or `MR !123`. Use a markdown link with the full forge
   URL, e.g. `[#123](https://github.com/org/repo/pull/123)` /
@@ -66,7 +67,7 @@ the baseline that stops you from re-teaching the same things every session.
 ### Reviews
 - Addressing review comments (bots or humans): fix or reply, then verify the
   threads are actually resolved via the forge API before claiming done — don't
-  leave them hanging. (→ `pr-bot-reviews`)
+  leave them hanging. (→ `pr-ready`)
 
 ### Scope discipline
 - "Audit" / "don't touch code" / a plain question means investigate and answer

@@ -15,7 +15,7 @@ Then ask it to install one skill, a few named skills, or all of them in the
 location its harness expects. For example:
 
 ```text
-Install the pr-triage and pr-bot-reviews skills from this repository.
+Install the pr-triage and pr-ready skills from this repository.
 ```
 
 The agent should copy each requested `skills/<name>/` directory as a complete
