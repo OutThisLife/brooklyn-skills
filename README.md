@@ -32,6 +32,27 @@ skills:
     - ~/path/to/brooklyn-skills/skills
 ```
 
+## Example prompts
+
+Just name the skill in the sentence. The description in each `SKILL.md` is what
+the agent matches against, so `/clean`, `clean`, and "clean it up" all land on
+the same skill. The leading slash is only shorthand — nothing here depends on
+your agent supporting slash commands.
+
+```text
+lets /work on the retry backoff for the upload queue
+please /clean your work and then /pr-update
+/pr-ready — CI is red and Copilot left three threads
+/audit-only: why does the session cache miss on cold start?
+/ui-only while we get the settings panel looking right, then /visual-verify
+/research whether anyone solves partial-file uploads with resumable PUTs
+```
+
+Chaining them in one message is the normal case: the first skill does the work
+and the later ones pick up its output. A few pair up so often that `defaults.md`
+runs them without being asked — `clean` before any PR handoff, `no-tropes` on
+prose.
+
 ## Always-on defaults
 
 `defaults.md` is a small set of baseline behaviors meant to be **always loaded**,
