@@ -53,6 +53,8 @@ the baseline that stops you from re-teaching the same things every session.
   changelog of your steps.
 - Split a PR into topical commits by default; don't dump everything into one
   commit unless asked. (→ `pr-update`)
+- When the work is done, clean and open/refresh the PR in one pass rather than
+  treating them as separate asks. (→ `cpr`)
 - CI green and review threads resolved are both part of "done." Don't report a
   task complete while checks are red or threads are open; if a failure is a
   known upstream flake, say so with the run link. (→ `pr-ready`)
