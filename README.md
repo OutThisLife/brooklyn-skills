@@ -44,6 +44,7 @@ lets /work on the retry backoff for the upload queue
 please /clean your work and then /pr-update
 /cpr — same thing in one pass, ends on the PR link
 /pr-ready — CI is red and Copilot left three threads
+/babysit it to green — watch CI, rerun the flake, ping me on changes
 /audit-only: why does the session cache miss on cold start?
 /ui-only while we get the settings panel looking right, then /visual-verify
 /research whether anyone solves partial-file uploads with resumable PUTs

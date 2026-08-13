@@ -58,6 +58,9 @@ the baseline that stops you from re-teaching the same things every session.
 - CI green and review threads resolved are both part of "done." Don't report a
   task complete while checks are red or threads are open; if a failure is a
   known upstream flake, say so with the run link. (→ `pr-ready`)
+- "Babysit" / "watch it" after a handoff means stay on the PR until it's green
+  or merged — poll checks, kick stalled CI, rerun flakes — reporting state
+  changes only, and merging only when asked. (→ `babysit`)
 - **ALWAYS link PR/MR numbers.** In chat, comments, summaries, and tweets: never
   bare `#123`, `PR 123`, or `MR !123`. Use a markdown link with the full forge
   URL, e.g. `[#123](https://github.com/org/repo/pull/123)` /
