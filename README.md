@@ -48,6 +48,7 @@ please /clean your work and then /pr-update
 /audit-only: why does the session cache miss on cold start?
 /ui-only while we get the settings panel looking right, then /visual-verify
 /research whether anyone solves partial-file uploads with resumable PUTs
+/list-open-work — my open MRs/PRs in this repo, with tickets
 ```
 
 Chaining them in one message is the normal case: the first skill does the work
