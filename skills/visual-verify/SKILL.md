@@ -1,19 +1,12 @@
 ---
 name: visual-verify
-description: >-
-  Prove a visual change by looking at the rendered surface — screenshot it and
-  compare to the reference before saying done. Use after any UI, layout, theme,
-  or color change, or when the user says it still looks wrong or doesn't match.
+description: Use to verify rendered UI against its design reference.
 ---
 
 # Visual Verify
 
 Never report a visual, layout, or theme change as done based on the diff or a
 passing test. Look at the running surface.
-
-For Figma/reference matching, use `design-overlay` for matched CSS dimensions,
-inversion/blend/difference evidence, and shared viewing zoom. Preserve the app's
-responsive units and tokens rather than scaling the product to fit a screenshot.
 
 ## Steps
 
@@ -24,8 +17,13 @@ responsive units and tokens rather than scaling the product to fit a screenshot.
 3. Compare against the reference: the design (Figma/mock), the sibling surface it
    should match, or the before state. Name the specific things you checked
    (color values, spacing, border, active state, contrast).
+   For Figma/screenshot matching, follow [Screenshot overlays](references/screenshot-overlays.md)
+   using the bundled utility or an existing harness with the same capture contract.
 4. If it doesn't match, keep the debug logging and iterate. Only say "done" once
    it visibly matches.
+5. Share the clean render and comparison evidence, with the viewport/state,
+   measured deltas, approved deviations and unverified states. Keep visual
+   parity, functional QA and the user's approval separate.
 
 ## Don't
 
