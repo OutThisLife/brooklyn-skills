@@ -11,6 +11,10 @@ description: >-
 Never report a visual, layout, or theme change as done based on the diff or a
 passing test. Look at the running surface.
 
+For Figma/reference matching, use `design-overlay` for matched CSS dimensions,
+inversion/blend/difference evidence, and shared viewing zoom. Preserve the app's
+responsive units and tokens rather than scaling the product to fit a screenshot.
+
 ## Steps
 
 1. Run the actual surface (dev server, app, TUI/GUI, Storybook — whatever shows

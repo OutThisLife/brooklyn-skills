@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Design overlay</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; color: #eeeeef; background: #19191c; font: 14px system-ui, sans-serif; }
+  header { position: sticky; top: 0; z-index: 2; padding: 16px 20px; background: #242428; border-bottom: 1px solid #555; }
+  h1 { margin: 0 0 12px; font-size: 17px; }
+  .controls { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  label { display: flex; gap: 8px; align-items: center; }
+  button, select { color: inherit; background: #343439; border: 1px solid #777; padding: 6px 10px; border-radius: 4px; }
+  button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid #aca4ff; outline-offset: 3px; }
+  output { font-variant-numeric: tabular-nums; }
+  #facts { color: #c4c4cb; line-height: 1.5; margin: 12px 0 0; }
+  #coordinate { display: block; padding-top: 8px; min-height: 28px; }
+  main { padding: 20px; overflow: auto; }
+  #extent { position: relative; }
+  #canvas { display: block; transform-origin: top left; image-rendering: auto; }
+  details { margin: 20px; max-width: 1000px; }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; color: #c4c4cb; }
+</style>
+<header>
+  <h1 id="title">Design overlay</h1>
+  <div class="controls">
+    <label>View <select id="mode">
+      <option value="invert">Inverted overlay</option>
+      <option value="blend">50/50 blend</option>
+      <option value="difference">Difference</option>
+      <option value="reference">Reference only</option>
+      <option value="actual">Actual only</option>
+    </select></label>
+    <label>Actual opacity <input id="opacity" type="range" min="0" max="100" value="50"><output id="opacityValue">50%</output></label>
+    <label>Viewing zoom <input id="zoom" type="range" min="10" max="200" value="100"><output id="zoomValue">100%</output></label>
+    <button id="native" type="button">1:1</button>
+    <button id="fit" type="button">Fit view</button>
+    <label><input id="grid" type="checkbox">8 CSS px grid</label>
+    <button id="clear" type="button">Clear measure</button>
+  </div>
+  <p id="facts"></p>
+  <output id="coordinate">Click an anchor, then move to measure Δx/Δy in CSS px and rem.</output>
+</header>
+<main><div id="extent"><canvas id="canvas"></canvas></div></main>
+<details><summary>Capture provenance, bounds and diagnostic metrics</summary><pre id="report"></pre></details>
+<script>
+  const bytes = Uint8Array.from(atob('__OVERLAY_PAYLOAD__'), c => c.charCodeAt(0));
+  const payload = JSON.parse(new TextDecoder().decode(bytes));
+  const report = payload.report;
+  const [width, height] = report.comparison_css;
+  const $ = id => document.getElementById(id);
+  document.title = report.title;
+  $('title').textContent = report.title;
+  $('facts').textContent = `${width} × ${height} CSS px · root ${report.root_font_css_px}px · ${report.scope}. Inversion: matching pixels are neutral gray; Difference: matching pixels are black. Zoom scales both captures together, not the product.`;
+  $('report').textContent = JSON.stringify(report, null, 2);
+  const canvas = $('canvas'), ctx = canvas.getContext('2d');
+  canvas.width = width; canvas.height = height;
+  const reference = new Image(), actual = new Image();
+  reference.src = payload.reference; actual.src = payload.actual;
+  let anchor = null, pointer = null, ready = false;
+  function draw() {
+    if (!ready) return;
+    const mode = $('mode').value, opacity = Number($('opacity').value) / 100;
+    ctx.clearRect(0, 0, width, height);
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none';
+    if (mode === 'actual') ctx.drawImage(actual, 0, 0);
+    else {
+      ctx.drawImage(reference, 0, 0);
+      if (mode !== 'reference') {
+        ctx.globalAlpha = mode === 'difference' ? 1 : opacity;
+        ctx.globalCompositeOperation = mode === 'difference' ? 'difference' : 'source-over';
+        ctx.filter = mode === 'invert' ? 'invert(1)' : 'none';
+        ctx.drawImage(actual, 0, 0);
+      }
+    }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none';
+    if ($('grid').checked) {
+      ctx.strokeStyle = '#ff00ff40'; ctx.lineWidth = 1; ctx.beginPath();
+      for (let x = 0; x < width; x += 8) { ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, height); }
+      for (let y = 0; y < height; y += 8) { ctx.moveTo(0, y + .5); ctx.lineTo(width, y + .5); }
+      ctx.stroke();
+    }
+    if (anchor && pointer) {
+      ctx.strokeStyle = '#ff00ff'; ctx.lineWidth = 1; ctx.beginPath();
+      ctx.moveTo(anchor.x, anchor.y); ctx.lineTo(pointer.x, pointer.y); ctx.stroke();
+      ctx.fillStyle = '#ff00ff'; ctx.fillRect(anchor.x - 2, anchor.y - 2, 4, 4);
+    }
+  }
+  function zoom() {
+    const scale = Number($('zoom').value) / 100;
+    canvas.style.transform = `scale(${scale})`;
+    $('extent').style.width = `${width * scale}px`;
+    $('extent').style.height = `${height * scale}px`;
+    $('zoomValue').textContent = `${$('zoom').value}%`;
+  }
+  function point(event) {
+    const rect = canvas.getBoundingClientRect();
+    return {x: (event.clientX - rect.left) * width / rect.width, y: (event.clientY - rect.top) * height / rect.height};
+  }
+  canvas.addEventListener('pointermove', event => {
+    pointer = point(event);
+    let text = `x ${pointer.x.toFixed(1)}, y ${pointer.y.toFixed(1)} CSS px`;
+    if (anchor) {
+      const dx = pointer.x - anchor.x, dy = pointer.y - anchor.y;
+      text += ` · Δx ${dx.toFixed(1)}px (${(dx / report.root_font_css_px).toFixed(3)}rem), Δy ${dy.toFixed(1)}px (${(dy / report.root_font_css_px).toFixed(3)}rem)`;
+    }
+    $('coordinate').textContent = text;
+    draw();
+  });
+  canvas.addEventListener('click', event => { anchor = point(event); draw(); });
+  $('clear').onclick = () => { anchor = null; draw(); };
+  $('mode').onchange = draw;
+  $('grid').onchange = draw;
+  $('opacity').oninput = () => { $('opacityValue').textContent = `${$('opacity').value}%`; draw(); };
+  $('zoom').oninput = zoom;
+  $('native').onclick = () => { $('zoom').value = 100; zoom(); };
+  $('fit').onclick = () => { $('zoom').value = Math.min(100, Math.max(10, Math.floor((innerWidth - 40) / width * 100))); zoom(); };
+  Promise.all([reference.decode(), actual.decode()]).then(() => { ready = true; zoom(); draw(); });
+</script>
+</html>
