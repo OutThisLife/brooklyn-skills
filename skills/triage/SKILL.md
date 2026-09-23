@@ -28,7 +28,7 @@ This skill is agent- and repository-independent. Use the host agent's available 
 1. Resolve canonical upstream and forge; a fork remote is not automatically upstream. Read repository/area instructions, contribution policy, and relevant maintainer decisions. Check authentication once; never expose credentials.
 2. Discover the actual default branch (usually `main`), fetch it, and pin the reviewed SHA. Inspect git status/worktrees; leave the primary checkout on its default branch and untouched. Follow `work` for review/fix worktrees.
 3. Enumerate exactly the requested issues, retaining explicit IDs even if a search omits them. Save full repository-qualified URLs, selection predicate, snapshot time, and base SHA. For batches, **read [references/batches.md](references/batches.md)** before starting.
-4. Batch independent metadata/search/history reads. Share one immutable base and repository map; do not rediscover the repo per issue.
+4. Batch independent metadata/search/history reads. Share one immutable base and repository map; do not rediscover the repo per issue. When a local catalog of the repository exists (for example `hermes-triage`), take inventory, filtering, grouping and reading from it instead of the forge API; re-read live forge state only for items you will act on.
 
 **Gate:** exact intake persisted; upstream/SHA known; write authority explicit.
 
