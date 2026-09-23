@@ -49,12 +49,20 @@ please /clean your work and then /pr-update
 /ui-only while we get the settings panel looking right, then /visual-verify
 /research whether anyone solves partial-file uploads with resumable PUTs
 /list-open-work — my open MRs/PRs in this repo, with tickets
+/triage <issues> — investigate against main, deduplicate, and give a verdict
+/triage <issues> fix and ship — consolidate related fixes into a maintainer PR
 ```
 
 Chaining them in one message is the normal case: the first skill does the work
 and the later ones pick up its output. A few pair up so often that `defaults.md`
 runs them without being asked — `clean` before any PR handoff, `no-tropes` on
 prose.
+
+`triage` is agent- and repository-independent. Install its whole directory,
+including `references/batches.md`. Its fix-and-ship path uses the companion
+skills `work`, `cpr`, `clean`, `pr-update`, `pr-ready`, `no-tropes`, `ui-only`,
+and `ui-system`; include those when installing it on its own. It discovers the
+target repository's test runner rather than assuming one project's commands.
 
 ## Always-on defaults
 
