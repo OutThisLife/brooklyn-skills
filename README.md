@@ -63,6 +63,9 @@ including `references/batches.md`. Its fix-and-ship path uses the companion
 skills `work`, `cpr`, `clean`, `pr-update`, `pr-ready`, `no-tropes`, `ui-only`,
 and `ui-system`; include those when installing it on its own. It discovers the
 target repository's test runner rather than assuming one project's commands.
+During authorized fix-and-ship work, low-risk PRs are set to rebase auto-merge
+when opened. Changes with plausible UI/UX, feature, or core regressions stay
+manual; existing checks and review requirements still apply.
 
 ## Always-on defaults
 

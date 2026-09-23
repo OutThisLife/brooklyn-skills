@@ -45,6 +45,7 @@ Structured records, not prose-only verdicts. One inventory row per selected full
 - `canonical_issue_url`, `related_pr_urls`, `fix_commit_urls`, `ancestry_result` when applicable.
 - `evidence`: permalink or `path:line@sha`, command/cwd/result/log path, rationale. Distinguish actual execution from static reasoning.
 - `blockers`, `next_action`, `replacement_pr_url`, and recommendation versus applied action.
+- `automerge`: eligibility/rationale, reviewed head SHA, requested method, observed state (`not-requested | enabled | unavailable | disabled | merged`), and verification timestamp. Assess each replacement independently; one safe PR does not authorize auto-merge for the whole batch.
 
 **Source manifest**
 - PR URL, base/head/merge SHA, authors, contributions, residual coverage, credit, intended disposition. Include landed sources so salvage cannot reintroduce their obsolete behavior.
@@ -64,6 +65,7 @@ Use an available scripting runtime to load persisted files and compute these che
 4. Every reviewed disposition passes its evidence gate. Closure candidates need all requirements covered, no unexplained post-fix contradiction, and fresh state checks. Validate every closure individually; random sampling is insufficient.
 5. One active maintainer replacement per causal cluster; every required variant/source contribution has an owner. Count issues, clusters, replacement PRs, superseded source PRs, and verified closures separately.
 6. Planned writes are not applied; applied without read-back is unverified. Remote totals derive from verified receipts. Query exact targets again and reconcile partial failures.
+   Rebase auto-merge enabled is not merged: verify the requested method/head, record unsupported-repository blockers, and count actual landings separately from queued PRs. Reassess and disable pending auto-merge if new evidence or revisions invalidate the risk gate.
 7. Reconcile any source-catalog total against enumerated pages under the SAME filter/time semantics. Discrepancy blocks claiming completeness; never just report the smaller total.
 
 ## Public comments
