@@ -37,7 +37,8 @@ specifically request stronger style matching.
 
 2–4 options, each roughly ≤240 chars:
 
-- Concrete claim or user benefit — no empty hype
+- Concrete claim or user benefit — no empty hype. For visual tools, lead with the visible effect or a playful, accurate description rather than a feature inventory.
+- When asked for an example image, look for prior PR/MR artifacts first. Inspect the actual image; a normal screenshot is not overlay evidence. If constructing a demo from it, visibly label deliberate offsets/edits and preserve source provenance. Never present the reconstruction as historical QA.
 - Little/no emoji; no engagement bait
 - One link max if useful
 - Run through `no-tropes`

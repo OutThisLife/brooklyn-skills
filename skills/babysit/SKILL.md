@@ -19,7 +19,7 @@ per-poll narration.
    state,mergeable,mergeStateStatus,reviewDecision,statusCheckRollup,autoMergeRequest`
    plus `gh pr checks <N>`.
 2. Poll inside bounded shell loops (a single `for` with `sleep 30`–`60`
-   between iterations), not one message per check.
+   between iterations), not one message per check. Keep watcher scripts, logs, and state outside disposable worktrees, and use a stable working directory; other sessions may remove a merged PR's worktree while its watcher is running. If a watcher fails, recheck the service directly and resume only the remainder of the original deadline. A failed monitor is not a failed deployment.
 3. React by cause:
    - **CI never started** → kick it:
      `git commit --allow-empty -m "chore: kick CI" && git push`.
@@ -33,9 +33,9 @@ per-poll narration.
 
 ## Merging
 
-Arm automerge only when the ask says so — "set to automerge", "make CI
-green", or any mention of merging. A plain "babysit" / "watch it" ends at
-green with threads resolved: report, don't merge.
+Arm automerge only when the user explicitly asks to merge or enable automerge.
+"Make CI green", "babysit", and "watch it" authorize checks and repairs, not
+merging. End at green with threads resolved unless merge authorization is explicit.
 
 ## CI quirks
 
