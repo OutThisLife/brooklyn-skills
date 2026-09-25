@@ -50,6 +50,11 @@ as it is now. Do not strip media from an existing description.
 
 Shape the branch's commits as part of opening/refreshing the PR.
 
+- Check effective `user.name` and `user.email` before committing. GitHub login
+  does not set commit attribution. If email is unset or Git infers a local-host
+  address, stop before publishing and confirm an account-associated email.
+  Never publish after ignoring Git's inferred-identity warning.
+
 - One concern per commit. Default to a topical split (2–5 is typical) even if
   not asked; don't dump everything into one blob unless the user wants it.
 - Match the repo's recent commit style (`git log --oneline -15`); subject = why.
@@ -82,7 +87,7 @@ Treat as media (keep verbatim, same URLs/markup/order when possible):
 
 Update flow:
 
-1. Read the existing body.
+1. Read the existing body. Extract JSON descriptions to plain Markdown with `jq -r '.description'` before using line-oriented file tools; one long escaped JSON string can be truncated even when the overall file fits. Reject truncated content rather than rebuilding a partial description.
 2. Extract and keep the media blocks.
 3. Rewrite textual sections so they match the current diff.
 4. Re-attach the preserved media (same block(s), typically at the end unless

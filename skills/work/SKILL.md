@@ -47,6 +47,8 @@ cd "$parent/$(basename "$repo")-<short>"
 Reuse a matching worktree/branch if one already exists — don't duplicate. Match
 how siblings handle `node_modules` / `.venv` / symlinks.
 
+- Never `git stash` in a worktree while other agents run: the stash list is shared repo-wide, so a pop can grab another worker's WIP. Commit WIP instead.
+
 ## Then
 
 - Do the task in the worktree; never in the primary checkout, and never in
@@ -55,6 +57,15 @@ how siblings handle `node_modules` / `.venv` / symlinks.
   the repo, so a parallel agent can pop your entry (or you pop theirs). To test
   against base, copy the file aside (`git show HEAD:<path> > …`) or use a
   throwaway worktree instead.
+- Every worker and subagent gets its own hermes-agent worktree, and the
+  worktree path is in its instructions. Fixes use a `bb/*` branch. Verification,
+  typecheck, and tests use a detached worktree at `origin/main`. Each worktree
+  runs its own `npm ci`. Never edit, install, build, typecheck, or test in
+  `~/Developer/hermes-agent`. `tsc -b` there emits `.js` beside the sources.
+- Prefer direct execution for focused fixes. Do not delegate routine sibling-path
+  audits or cleanup; reserve subagents for substantial independent work that
+  clearly saves time.
+- Default to pnpm for JavaScript package commands and install examples when the repository supports it. Respect an existing different package-manager/lockfile contract rather than introducing a second lockfile.
 - UI → `ui-only` + `ui-system`. Tests → whatever the repo uses.
 - When handing off, tell the user the worktree path and how to run it.
 - Ship → commit, push the branch, open a PR/MR to the default branch.

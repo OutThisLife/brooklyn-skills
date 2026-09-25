@@ -86,6 +86,12 @@ Ticket = first `\b[A-Z][A-Z0-9]+-\d+\b` in the title, then the branch, then the
 description. Use that key's tracker host as this repo uses it — don't guess a
 site from another company.
 
+### Jira account verification
+
+Validate actual Jira results against the repository's tracker project; `acli jira auth status` alone can report the intended site while searches still reach another account. If project keys or API hosts contradict the expected workspace, explicitly select the saved account with `acli jira auth switch --site <repo-tracker-host> --email <verified-email>`, then read back a known ticket before trusting the list. Do not reuse results from the wrong site.
+
+Use `acli jira workitem search --paginate` and compare the distinct fetched count against the same JQL with `--count`. Search has a restricted field list; retrieve timestamps, descriptions, and comments with `workitem view --fields summary,description,status,priority,assignee,updated,comment,issuelinks --json` instead. Read comments before classifying Testing tickets as new implementation work.
+
 ## Then, in prose
 
 Only the things that change what I'd do next:
@@ -105,3 +111,9 @@ glab api "projects/<path>/merge_requests/<iid>?include_diverged_commits_count=tr
 - No ticket plus months of age — give the age, offer to close.
 
 Skip approvals unless asked. Don't narrate fields that changed nothing.
+
+For GitHub readiness checks, read submitted review bodies and human PR comments as well as paginated inline threads. A `COMMENTED` review can contain explicit merge blockers even when unresolved inline-thread count is zero and CI is green. Match each review to its reviewed head; older findings need rechecking rather than being asserted as current defects.
+
+Keep CI conclusions, conflict status, and substantive review blockers separate. Query `gh pr checks` for each current head; `UNKNOWN` mergeability is unverified, not conflict-free. Persist the inventory and aggregate counts programmatically before reporting totals.
+
+When this repository uses GitHub issues rather than tracker keys, inspect explicit issue links in the PR body as well as `closingIssuesReferences`. An intentionally non-closing reference can be the real attached ticket. Read the issue's state and discussion before changing it; a partial fix or pending live verification can require keeping it open.
