@@ -50,6 +50,11 @@ shape. One cluster → one consolidated supersede.
 
 A pasted thread *is* the intake. Don't make them restate a bare URL.
 
+A support handoff with an owner/maintainer column is a shared board, not her queue. Take only rows
+whose owner names her (alone or shared); list the rest as "not yours" with no forge writes, even when
+the ask is a broad "help these out". Approving, merging, salvaging or closing another maintainer's
+cluster is overreach she has to walk back.
+
 1. Pull out symptom, platform, linked PR/issue, what staff already said.
 2. Open those PRs; look for siblings on the same fix.
 3. Run the per-PR loop. Check the PR actually matches the reported bug.
