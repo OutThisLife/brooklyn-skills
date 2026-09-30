@@ -26,6 +26,12 @@ Reuse what the app already has. Don't invent a parallel UI kit.
    app's Tailwind v4 setup). No one-off hex/shadow stacks.
 5. Match the app's look: if the app doesn't use borders/shadows/sparkles,
    neither does your feature.
+6. Hover paints instantly; only the exit eases. Put the transition on the
+   resting state and drop it while hovered (`transition-colors duration-100
+   hover:transition-none`, or `transition: none` on `:hover`), including
+   sibling-dimming groups. Only a named exception fades both ways (e.g. the
+   catalog arc border). Audit every hover you add or touch; verify computed
+   `transition-property` while hovered (`transition-none` leaves duration).
 
 ## Extending an existing interaction
 
