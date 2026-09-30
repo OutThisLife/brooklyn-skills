@@ -166,7 +166,9 @@ internal** authors with a **single tiny nit** under Approve — never for
 ## Trusted / internal authors
 
 Infer from organization membership, team roles, prior maintainer behavior, or
-the user explicitly identifying someone as a lead/internal contributor.
+the user explicitly identifying someone as a lead/internal contributor. If a
+`pr-triage-<repo>` overlay skill exists for this repo, load it for the roster
+and worktree layout.
 
 | Who | Default |
 |-----|---------|
