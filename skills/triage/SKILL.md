@@ -80,10 +80,17 @@ Return a concise cluster verdict, evidence, and action. Investigate-only stops h
 3. Build only residual gaps after landed behavior. Cherry-pick useful commits where possible to preserve authorship; selectively adapt without importing unrelated changes. Keep a manifest of source URLs, heads, authors, reused code/tests/diagnosis, and excluded scope.
 4. Credit every contributor whose work/diagnosis informed the replacement in its body. Preserve author metadata; add `Co-authored-by` for incorporated contributions using verified identities, never invented emails. Acknowledgment does not mean authorship of discarded work.
 5. Fix the whole bug class and required sibling paths, not just the named example. Prove regression fails on base and passes with fix; use a small number of behavioral/invariant tests covering the acceptance matrix and actual integration path. A source patch's passing test is not complete coverage.
-6. Respect unresolved lead-maintainer decisions. If a source PR has independent work outside this fix, preserve/split its ownership; never close it wholesale while discarding that work. Surface genuine scope conflicts before substantial implementation.
-7. Respect `ui-only` approval gates and `ui-system` primitives. After approval, run relevant checks, record actual results, and inspect the final diff for unrelated deletions/reverts.
+6. **Screen for side effects before publishing.** CI and the PR's tests run on a fresh install with the test fixtures; the users a change breaks usually aren't in that setup. For whatever the diff changes, answer with evidence:
+   - **Existing state:** does an upgraded install have data keyed on it (storage keys, origins, ports, ids, config values)? Test old state, then the new build, then a relaunch, including users who already ran a broken build.
+   - **Version skew:** does it cross a boundary whose sides update independently (client/server, app/backend, plugin/host)? A one-sided fix strands whoever updates the other side first.
+   - **Reserved values and invariants:** a value every stock config ships means "no choice made". A diff that rewrites an existing assertion to its opposite is a decision, not proof; find why it existed first.
+   - **Other callers and flows:** grep every caller; probe restore, other sessions/tabs, background and unattended paths at the integration seam.
+   - **Open findings:** a reviewer's concrete repro stays open until it gets a reply citing the fix. A later push doesn't answer it.
+   Write the answers into the PR body. Any unanswered question keeps auto-merge off.
+7. Respect unresolved lead-maintainer decisions. If a source PR has independent work outside this fix, preserve/split its ownership; never close it wholesale while discarding that work. Surface genuine scope conflicts before substantial implementation.
+8. Respect `ui-only` approval gates and `ui-system` primitives. After approval, run relevant checks, record actual results, and inspect the final diff for unrelated deletions/reverts.
 
-**Gate:** complete cluster coverage, credit, real verification; no hidden unowned residual.
+**Gate:** complete cluster coverage, side effects answered, credit, real verification; no hidden unowned residual.
 
 ## 6. Publish with CPR, then reconcile
 
@@ -103,7 +110,7 @@ Return a concise cluster verdict, evidence, and action. Investigate-only stops h
 ### Low-risk rebase auto-merge
 
 - Assess the **whole proposed diff and its affected call paths**, not the issue title, label, file extension, or line count. Eligible means investigation and focused validation reveal **no obvious way to break important UI/UX, feature behavior, or core functionality**. Record a short rationale and the reviewed head SHA in the PR body/evidence before enabling it. Missing evidence is uncertainty, not low risk.
-- Consider indirect effects on shared components, public contracts, authentication/security, user data, migrations, dependencies, configuration, builds, and deployment. A credible regression path in any of these, unverified acceptance cases, unresolved review objections, or missing UI approval keeps auto-merge off. Small production changes are not automatically safe; documentation/test-only changes still need their operational effects checked.
+- Consider indirect effects on shared components, public contracts, authentication/security, user data, migrations, dependencies, configuration, builds, and deployment. A credible regression path in any of these, unverified acceptance cases, unresolved review objections, an unanswered side-effect question (step 5.6), or missing UI approval keeps auto-merge off. Small production changes are not automatically safe; documentation/test-only changes still need their operational effects checked.
 - Complete local validation and the risk assessment before `cpr` opens the PR. Then, for GitHub, run `gh pr merge <PR-URL> --auto --rebase --match-head-commit <reviewed-head-SHA>` as part of the opening sequence. **Do not wait for CI to finish before enabling it.** The command may merge immediately if requirements are already satisfied, so never queue it while your own validation or review is unfinished.
 - Respect existing branch protections, required checks/reviews, and merge queues. Never use `--admin`, bypass checks, change repository settings, or silently substitute squash/merge commits. If auto-merge or rebase is disabled, permissions are missing, or a queue cannot honor rebase, leave the PR open and report the exact blocker. On other forges, use the verified equivalent automatic rebase/fast-forward workflow under existing project settings; otherwise report it unavailable.
 - Read back the exact PR/head and its auto-merge request: GitHub's `autoMergeRequest.mergeMethod` must be `REBASE`, or the PR must already be verifiably merged. A successful command alone is not proof. Record enabled, unavailable, or merged distinctly, and continue watching checks/reviews through `pr-ready`.
