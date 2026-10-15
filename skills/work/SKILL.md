@@ -18,6 +18,45 @@ When invoked:
 2. Create the worktree + branch and `cd` into it.
 3. Do the requested work there.
 
+## Work aimed at an issue ("if it's open and reproducible")
+
+Do these in order before writing any fix:
+
+0. **Load the repo's own gate skill first.** If the repo has a deployment or
+   brain skill (a `<prefix>-repo` skill, a triage/claim system), load it
+   before searching. Its per-issue gates (claim, overlap check, side-effect
+   screen, risk title, auto-merge classifier) apply to a single `/work` fix as
+   much as to a sweep. Skipping them because the request said "/work" rather
+   than "triage" is the failure: the PR ships without the risk and side-effect
+   sections she expects, and can duplicate her own open PR.
+1. **Find the issue.** Search open and closed issues with several phrasings
+   (`gh issue list --state all --search "<q>"`), plus `in:title` variants. A
+   closed issue with a close-by-PR may already cover it. Check that before you
+   call a newer report a duplicate.
+2. **Look for a PR that already fixes it.** Search with
+   `gh pr list --state all --search "<issue#>"` and with keywords. Drafts count:
+   a contributor can park a finished fix as a draft because of an open-PR cap.
+   If a complete fix exists, salvage it (cherry-pick the commit so authorship
+   is kept) instead of writing a parallel one. Check **her own** open PRs too
+   (`gh pr list --author @me --state open --json number,title,files,mergeable,autoMergeRequest`),
+   not only contributors': an armed-but-CONFLICTING PR of hers on the same
+   function is live work. Fold both into ONE combined PR that supersedes them
+   (cherry-pick what applies, port the rest by hand onto main's current file
+   layout, keep every `Co-authored-by`), then disarm (`gh pr merge N --disable-auto`)
+   and close the sources with a comment linking the replacement.
+3. **Prove it red on the base.** Apply only the tests first
+   (`gh pr diff <N> > f.diff && git apply --include='tests/*' f.diff`), run
+   them, and see them fail. Then remove the file and `git cherry-pick` the real
+   commit, so the test file isn't left as an untracked conflict.
+4. **Reproduce the user-visible path end to end.** Run it on a detached base
+   worktree and on the branch, and keep both outputs as before/after evidence
+   for the PR body.
+5. **Re-run any failures on the base worktree** before calling them unrelated.
+   "Fails identically on untouched base" is the claim to report.
+
+Answer the "is it open / can it be repro'd" part first in the handoff, then
+the fix and the PR link.
+
 ## Read the repo's conventions
 
 ```bash
@@ -57,11 +96,12 @@ how siblings handle `node_modules` / `.venv` / symlinks.
   the repo, so a parallel agent can pop your entry (or you pop theirs). To test
   against base, copy the file aside (`git show HEAD:<path> > …`) or use a
   throwaway worktree instead.
-- Every worker and subagent gets its own hermes-agent worktree, and the
-  worktree path is in its instructions. Fixes use a `bb/*` branch. Verification,
-  typecheck, and tests use a detached worktree at `origin/main`. Each worktree
-  runs its own `npm ci`. Never edit, install, build, typecheck, or test in
-  `~/Developer/hermes-agent`. `tsc -b` there emits `.js` beside the sources.
+- Every worker and subagent gets its own worktree, and the worktree path is in
+  its instructions. Fixes use a `bb/*` branch. Verification, typecheck, and
+  tests use a detached worktree at `origin/<default>`. When its lockfile matches
+  the primary's, symlink every `node_modules` (root and workspace packages) to
+  the primary's; install only on a lock change, after removing those links.
+  Never edit, install, build, typecheck, or test in the primary checkout.
 - Prefer direct execution for focused fixes. Do not delegate routine sibling-path
   audits or cleanup; reserve subagents for substantial independent work that
   clearly saves time.
