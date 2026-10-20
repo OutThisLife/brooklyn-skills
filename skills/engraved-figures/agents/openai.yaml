@@ -1,0 +1,4 @@
+interface:
+  display_name: "Engraved Figures"
+  short_description: "Monochrome scientific plates and precise diagrams"
+  default_prompt: "Use $engraved-figures to turn this material into an engraved scientific figure."

@@ -47,6 +47,7 @@ please /clean your work and then /pr-update
 /babysit it to green — watch CI, rerun the flake, ping me on changes
 /audit-only: why does the session cache miss on cold start?
 /ui-only while we get the settings panel looking right, then /visual-verify
+/engraved-figures — turn this material into a monochrome scientific plate
 /research whether anyone solves partial-file uploads with resumable PUTs
 /list-open-work — my open MRs/PRs in this repo, with tickets
 /triage <issues> — investigate against main, deduplicate, and give a verdict
