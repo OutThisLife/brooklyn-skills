@@ -5,11 +5,12 @@ description: Create scientific figures, technical plates, research posters and d
 
 # Engraved figures
 
-Scientific drawing carries the composition: fine wireframes, stippled points, clear axes, serif labels, and generous space inside a dense page. Inspect [the approved poster](references/approved-poster.png) before choosing the composition. It establishes the line character and visual density; its subject and redactions are examples, not defaults for every task.
+Scientific drawing carries the composition: fine wireframes, stippled points, clear axes, serif labels, and generous space inside a dense page. Before choosing a layout, open [the reference showcase](references/examples/showcase.html): **one landscape plate** ([reference-plate.png](references/examples/reference-plate.png)) and a **net-metric chart** ([reference-chart.png](references/examples/reference-chart.png)). Cyclic or redacted posters follow [poster direction](references/poster-direction.md) without a bundled poster file. Read [multi-figure plates](references/example-set.md) and [chart direction](references/chart-direction.md). Match bundled density and grammar; use the user's subject and real data when claiming measured results.
 
 ## Choose the right kind of figure
 
 - **Technical documentation:** derive the relationships from source material or implementation. Prefer editable SVG with real text and an accessible title/description. Describe exactly what the marks, lines, boundaries and axes mean. Keep the mechanism legible. Read [technical figures](references/technical-figures.md).
+- **Quantitative charts on paper:** thin smoothed daily lines, one combined moving average, shaded windows and dashed event markers — not dashboard widgets. Read [chart direction](references/chart-direction.md).
 - **Illustrative poster or standalone art:** use the available image-generation workflow when a raster illustration is requested. Scientific geometry can serve as a metaphor, clearly labeled schematic. A torus does not establish a storage topology; a landscape is not measured performance. Read [poster and redaction direction](references/poster-direction.md).
 - **Interactive or animated composition:** use actual geometry in the requested renderer. Preserve the approved page, typography and camera composition. Agree the meaningful behavior from the request: rotating a form, scrubbing a time slice, following a path, selecting a neighborhood. Keep text stationary and readable. Add motion controls and respect reduced motion. Animation and export workflows remain separate from this visual style.
 

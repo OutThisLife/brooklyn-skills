@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Engraved figures — reference showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 48px 16px 72px;
+    font-family: "STIX Two Text", "Times New Roman", serif;
+    font-size: 15px;
+    line-height: 1.45;
+    color: #111;
+    background: #f3f1ed;
+  }
+  main { max-width: 1080px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 8px; }
+  .lead { color: #444; margin: 0 0 28px; max-width: 46em; }
+  section { margin-bottom: 36px; }
+  h2 {
+    font-size: 12px;
+    font-weight: 600;
+    font-variant: small-caps;
+    letter-spacing: 0.08em;
+    margin: 0 0 10px;
+    color: #333;
+  }
+  .paper {
+    background: #fff;
+    padding: 12px;
+    border: 1px solid #d5d2cc;
+  }
+  .paper img { display: block; width: 100%; height: auto; }
+  figcaption { font-size: 13px; color: #333; margin-top: 10px; }
+  code { font-size: 0.86em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Engraved figures — reference showcase</h1>
+  <p class="lead">Bundled references: one landscape plate and one net-metric chart. Cyclic/redacted posters follow <a href="../poster-direction.md">poster direction</a> — no poster image ships with this skill.</p>
+
+  <section>
+    <h2>One sheet · wireframe plate</h2>
+    <figure class="paper">
+      <img src="reference-plate.png" alt="Verified data pipeline engraved plate">
+      <figcaption><b>Architecture of a Verified Data Pipeline.</b> Single landscape sheet — numbered wireframes, dashed bands, schematic footer.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Chart · net metric + combined average</h2>
+    <figure class="paper">
+      <img src="reference-chart.png" alt="Net queue pressure chart">
+      <figcaption><b>Net queue pressure per day.</b> Thin smoothed series, black combined 7-day average, calibration band, event marker. Rerender with <code>scripts/generate-reference-chart.py</code>.</figcaption>
+    </figure>
+  </section>
+</main>
+</body>
+</html>
