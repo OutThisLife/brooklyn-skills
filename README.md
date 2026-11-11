@@ -49,6 +49,7 @@ please /clean your work and then /pr-update
 /ui-only while we get the settings panel looking right, then /visual-verify
 /engraved-figures — turn this material into a monochrome scientific plate
 /research whether anyone solves partial-file uploads with resumable PUTs
+/shop-board dollskill xs, xxs, cutie stuff only — the whole store as one picking board
 /list-open-work — my open MRs/PRs in this repo, with tickets
 /triage <issues> — investigate against main, deduplicate, and give a verdict
 /triage <issues> fix and ship — consolidate related fixes into a maintainer PR
