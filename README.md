@@ -47,6 +47,7 @@ please /clean your work and then /pr-update
 /babysit it to green — watch CI, rerun the flake, ping me on changes
 /audit-only: why does the session cache miss on cold start?
 /ui-only while we get the settings panel looking right, then /visual-verify
+/agent-qa-testing on tests/checkout.yaml; explain the verdict and memory used
 /engraved-figures — turn this material into a monochrome scientific plate
 /modern-web-guidance before this dialog — native platform patterns first, with fallbacks
 /research whether anyone solves partial-file uploads with resumable PUTs
@@ -60,6 +61,11 @@ Chaining them in one message is the normal case: the first skill does the work
 and the later ones pick up its output. A few pair up so often that `defaults.md`
 runs them without being asked — `clean` before any PR handoff, `no-tropes` on
 prose.
+
+`agent-qa-testing` uses [agent-qa](https://github.com/vostride/agent-qa) for
+natural-language web tests with advanced memidex memory and self-improvement.
+It expects an initialized project and its browser/model provider; live runs can
+change app data and incur provider costs.
 
 `triage` is agent- and repository-independent. Install its whole directory,
 including `references/batches.md`. Its fix-and-ship path uses the companion
