@@ -34,6 +34,11 @@ the baseline that stops you from re-teaching the same things every session.
   a parallel UI kit, and don't add borders, backgrounds, shadows, sparkles,
   badges, or section chrome the surrounding app doesn't already use. (→ `ui-system`)
 - Don't start a dev server the user is already running — assume it's up.
+- Writing or changing web UI, HTML/CSS, or client-side JS? Search the modern web
+  guidance first (`npx -y modern-web-guidance@latest search "<2-5 words>"`, then
+  `retrieve <id>`) and use the native platform feature and fallback it names
+  over a dependency or an older pattern. Credit the guide in one line.
+  (→ `modern-web-guidance`)
 - Keep debug logging in place while something is still broken; remove it only
   once it works.
 - Don't claim a visual/theme change is done without running the surface and

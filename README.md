@@ -48,6 +48,7 @@ please /clean your work and then /pr-update
 /audit-only: why does the session cache miss on cold start?
 /ui-only while we get the settings panel looking right, then /visual-verify
 /engraved-figures — turn this material into a monochrome scientific plate
+/modern-web-guidance before this dialog — native platform patterns first, with fallbacks
 /research whether anyone solves partial-file uploads with resumable PUTs
 /shop-board dollskill xs, xxs, cutie stuff only — the whole store as one picking board
 /list-open-work — my open MRs/PRs in this repo, with tickets
@@ -97,4 +98,8 @@ the **[BB Workflows](https://gist.github.com/OutThisLife/69e87de53bb37ff85387cb1
 | [mac.md](https://gist.github.com/OutThisLife/69e87de53bb37ff85387cb120632f255#file-mac-md) | macOS install, zsh helper, LaunchAgent |
 | [windows.md](https://gist.github.com/OutThisLife/69e87de53bb37ff85387cb120632f255#file-windows-md) | Windows 11 install, Task Scheduler |
 
-MIT licensed.
+MIT licensed, except `skills/modern-web-guidance`, which is the
+[GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance)
+skill copied unmodified under Apache-2.0 (license in that directory). Its guides
+come from the `modern-web-guidance` npm CLI at run time, so only `SKILL.md` needs
+refreshing when upstream changes the workflow.
