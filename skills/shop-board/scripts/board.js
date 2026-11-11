@@ -114,7 +114,7 @@ h1 small{font-size:14px;font-weight:400;color:var(--muted-fg);margin-left:10px;l
 .chip.dim{color:var(--muted-fg)}
 .chip.dim.on{color:var(--primary-fg)}
 .grid{padding:24px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));grid-auto-rows:max-content;gap:24px 16px;align-content:start}
-.card{cursor:pointer;position:relative;display:flex;flex-direction:column}
+.card{cursor:pointer;position:relative;display:flex;flex-direction:column;content-visibility:auto;contain-intrinsic-size:auto 300px}
 .ph{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--muted);transition:border-color .15s,box-shadow .15s}
 .card:hover .ph{border-color:var(--ring)}
 .card img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;display:block}
@@ -125,14 +125,14 @@ h1 small{font-size:14px;font-weight:400;color:var(--muted-fg);margin-left:10px;l
 .vb{font-size:12px;margin-top:4px;color:var(--muted-fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pill{position:absolute;top:10px}
 .tick{right:10px;width:18px;height:18px;border-radius:5px;border:1px solid var(--primary);background:var(--background);display:grid;place-items:center;font-size:12px;font-weight:600;line-height:1;color:transparent;box-shadow:0 1px 2px rgba(0,0,0,.08)}
-.open{left:10px;height:26px;display:flex;align-items:center;padding:0 10px;border-radius:7px;border:1px solid var(--border);background:var(--overlay);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+.open{left:10px;height:26px;display:flex;align-items:center;padding:0 10px;border-radius:7px;border:1px solid var(--border);background:var(--overlay);
   color:var(--foreground);font-size:12px;font-weight:500;text-decoration:none;opacity:0;transition:opacity .15s}
 .card:hover .open{opacity:1}
 .card.want .ph{border-color:var(--primary);box-shadow:0 0 0 1px var(--primary)}
 .card.want .tick{background:var(--primary);color:var(--primary-fg)}
 .card.added .tick{background:var(--muted-fg);border-color:var(--muted-fg);color:var(--primary-fg)}
 footer{position:absolute;left:50%;transform:translateX(-50%);bottom:20px;width:min(680px,calc(100% - 32px));border-radius:12px;border:1px solid var(--border);
-  background:var(--overlay);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);padding:8px 8px 8px 18px;display:flex;align-items:center;gap:18px;z-index:2;
+  background:var(--background);padding:8px 8px 8px 18px;display:flex;align-items:center;gap:18px;z-index:2;
   box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
 .stat{font-size:13px;color:var(--muted-fg)}.stat b{color:var(--foreground);font-weight:600;margin-right:4px;font-variant-numeric:tabular-nums}
 .note{font-size:13px;color:var(--muted-fg)}
@@ -185,16 +185,22 @@ footer{bottom:16px;width:min(560px,calc(100% - 32px));border-radius:10px;padding
     let active = 'All', brand = 'All';
     const inBrand = i => brand === 'All' || (brand === 'other' ? !i.brand : i.brand === brand);
     const href = i => /^\/|^https?:/.test(i.h) ? i.h : `/products/${i.h}`;
+    // Product photos are often 1–4k px; the CDN resizes on the fly, so ask for ~2x the card width.
+    const thumb = src => /cdn\.shopify\.com|\/cdn\/shop\//.test(src) ? src + (src.includes('?') ? '&' : '?') + 'width=400' : src;
     const render = () => {
       const base = items.filter(inBrand);
       const names = ['All', 'Picked', ...order.filter(n => base.some(i => i.tags[n]))];
       $('.chips').innerHTML = names.map(n => `<button class="chip ${n === active ? 'on' : ''} ${/Shoes|Bags|Everything|Picked/.test(n) ? 'dim' : ''}" data-c="${esc(n)}">${esc(n)}<b>${n === 'All' ? base.length : n === 'Picked' ? items.filter(i => picks[i.id]).length : base.filter(i => i.tags[n]).length}</b></button>`).join('');
       const top = $('.scroller').scrollTop;
       const vis = active === 'All' ? base : active === 'Picked' ? items.filter(i => picks[i.id]) : base.filter(i => i.tags[active]).sort((a, b) => (b.tags[active] - a.tags[active]) || ((a.idx ?? 0) - (b.idx ?? 0)));
-      $('.grid').innerHTML = vis.map(i => `<div class="card ${picks[i.id] === 'added' ? 'added' : picks[i.id] ? 'want' : ''}" data-id="${esc(i.id)}"><div class="ph"><img loading="lazy" src="${esc(i.img)}"><a class="pill open" href="${esc(href(i))}" target="_blank" title="Open product">View</a><div class="pill tick">✓</div></div><div class="meta"><div class="nm">${esc(i.t)}</div><div class="row"><span>${esc(i.brand || i.vendor || '')}</span><b>$${esc(i.price)}</b></div><div class="vb">${Object.keys(i.tags).filter(t => t !== active && !/Shoes|Bags|Everything/.test(t)).join(' · ')}</div></div></div>`).join('') || '<div class="empty">Nothing here</div>';
+      $('.grid').innerHTML = vis.map(i => `<div class="card ${picks[i.id] === 'added' ? 'added' : picks[i.id] ? 'want' : ''}" data-id="${esc(i.id)}"><div class="ph"><img loading="lazy" decoding="async" src="${esc(thumb(i.img))}"><a class="pill open" href="${esc(href(i))}" target="_blank" title="Open product">View</a><div class="pill tick">✓</div></div><div class="meta"><div class="nm">${esc(i.t)}</div><div class="row"><span>${esc(i.brand || i.vendor || '')}</span><b>$${esc(i.price)}</b></div><div class="vb">${Object.keys(i.tags).filter(t => t !== active && !/Shoes|Bags|Everything/.test(t)).join(' · ')}</div></div></div>`).join('') || '<div class="empty">Nothing here</div>';
       $('.scroller').scrollTop = top;
+      counts();
+    };
+    const counts = () => {
       const w = items.filter(i => picks[i.id] === 1);
       $('.w').textContent = w.length; $('.t').textContent = '$' + w.reduce((s, i) => s + (+i.price || 0), 0).toLocaleString(undefined, { maximumFractionDigits: 0 });
+      const pc = $('.chip[data-c="Picked"] b'); if (pc) pc.textContent = items.filter(i => picks[i.id]).length;
       if ($('.go')) $('.go').disabled = !w.length;
     };
     root.addEventListener('click', async e => {
@@ -202,7 +208,14 @@ footer{bottom:16px;width:min(560px,calc(100% - 32px));border-radius:10px;padding
       if (t.classList.contains('x')) return host.remove();
       if (t.dataset.b) { brand = t.dataset.b; root.querySelectorAll('.seg button').forEach(b => b.classList.toggle('on', b === t)); $('.scroller').scrollTop = Math.min($('.scroller').scrollTop, $('.grid').offsetTop + 10); return render(); }
       if (t.dataset.c) { active = t.dataset.c; $('.scroller').scrollTop = Math.min($('.scroller').scrollTop, $('.grid').offsetTop + 10); return render(); }
-      if (t.dataset.id) { if (picks[t.dataset.id] === 'added') return; if (picks[t.dataset.id]) delete picks[t.dataset.id]; else picks[t.dataset.id] = 1; savePicks(); return render(); }
+      if (t.dataset.id) {
+        if (picks[t.dataset.id] === 'added') return;
+        if (picks[t.dataset.id]) delete picks[t.dataset.id]; else picks[t.dataset.id] = 1;
+        savePicks();
+        if (active === 'Picked') return render();
+        t.classList.toggle('want', !!picks[t.dataset.id]); // just this card, not all of them
+        return counts();
+      }
       if (t.classList.contains('go')) {
         const list = items.filter(i => picks[i.id] === 1), lines = [], skipped = [];
         t.disabled = true;

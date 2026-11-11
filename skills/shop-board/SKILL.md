@@ -66,6 +66,10 @@ at around 45s, so never `await` a whole crawl in one call.
 
 ## Hard-won rules
 
+- **Keep it fast on big stores.** Request CDN thumbnails (Shopify resizes with
+  `?width=400`; originals run 1–4k px and stutter scrolling), let `content-visibility`
+  skip offscreen cards, avoid live `backdrop-filter` over the grid, and update one
+  card on a pick instead of re-rendering hundreds.
 - **Nothing vanishes under the cursor.** A click toggles one thing. A card stays
   where it is until the tab or group changes. Bulk actions (Keep all / Remove
   all) come with Undo.

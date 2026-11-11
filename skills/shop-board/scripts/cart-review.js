@@ -118,7 +118,7 @@ h1 small{font-size:12.5px;font-weight:400;color:var(--muted-fg);margin-left:8px;
 .chip b{font-weight:500;font-size:10.5px;line-height:1;padding:2px 5px;border-radius:999px;background:var(--secondary);color:var(--muted-fg);font-variant-numeric:tabular-nums}
 .chip.on{background:var(--primary);color:var(--primary-fg);border-color:var(--primary)}.chip.on b{background:rgba(127,127,127,.25);color:inherit}
 .grid{padding-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));grid-auto-rows:max-content;gap:18px 12px}
-.card{cursor:pointer;position:relative;display:flex;flex-direction:column;transition:opacity .2s}
+.card{cursor:pointer;position:relative;display:flex;flex-direction:column;transition:opacity .2s;content-visibility:auto;contain-intrinsic-size:auto 300px}
 .ph{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--muted)}
 .card:hover .ph{border-color:var(--ring)}
 .card img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;display:block;transition:filter .2s}
@@ -134,8 +134,8 @@ h1 small{font-size:12.5px;font-weight:400;color:var(--muted-fg);margin-left:8px;
 .card.off img{filter:grayscale(1)}
 .card.off .mark{background:var(--background);border-color:var(--danger);color:var(--danger)}
 .card.off .nm{text-decoration:line-through}
-footer{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;width:min(620px,calc(100% - 32px));border-radius:10px;border:1px solid var(--border);background:var(--overlay);
-  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);padding:5px 5px 5px 14px;display:flex;align-items:center;gap:14px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
+footer{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;width:min(620px,calc(100% - 32px));border-radius:10px;border:1px solid var(--border);background:var(--background);
+  padding:5px 5px 5px 14px;display:flex;align-items:center;gap:14px;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
 .stat{font-size:12px;color:var(--muted-fg);white-space:nowrap}.stat b{color:var(--foreground);font-weight:600;font-size:12.5px;margin-right:3px;font-variant-numeric:tabular-nums}
 .toast{font-size:12px;color:var(--muted-fg);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .2s}
 .toast.on{opacity:1}
@@ -153,6 +153,7 @@ footer{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;width:m
 </div></div>
 <footer><div class="stat"><b class="k"></b>keeping</div><div class="stat"><b class="t"></b>total</div><div class="stat"><b class="r"></b>to remove</div><div class="toast"><span></span><button class="undo">Undo</button></div><button class="apply">Apply</button></footer></div>`;
   const $ = s => root.querySelector(s);
+  const thumb = src => /cdn\.shopify\.com|\/cdn\/shop\//.test(src || '') ? src + (src.includes('?') ? '&' : '?') + 'width=400' : src; // CDN resizes on the fly
   $('h1 small').textContent = `${items.length} items`;
   let toastTimer;
   function toast(entry) {
@@ -172,7 +173,7 @@ footer{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;width:m
     $('.chips').innerHTML = names.map(n => { const g = items.filter(i => n === 'All' || i.cat === n); return `<button class="chip ${n === active ? 'on' : ''}" data-c="${esc(n)}">${esc(n)}<b>${g.filter(i => state[i.key]).length}/${g.length}</b></button>`; }).join('');
     const top = $('.scroller').scrollTop, rec = view === 'recent' ? recentOrder() : null;
     const vis = visible();
-    $('.grid').innerHTML = vis.length ? vis.map(i => `<div class="card ${state[i.key] ? '' : 'off'}" data-k="${esc(i.key)}"><div class="ph"><img loading="lazy" src="${esc(i.img)}"><a class="open" href="${esc(i.url)}" target="_blank" title="Open product">View</a><div class="mark">${state[i.key] ? '✓' : '×'}</div></div><div class="meta"><div class="nm">${esc(i.name)}</div><div class="row"><span>${esc(i.size)}</span><b>${money(i.price)}</b></div>${rec ? `<div class="when">${state[i.key] ? 'kept' : 'removing'} · ${ago(rec.get(i.key))}</div>` : ''}</div></div>`).join('') : `<div class="empty">${view === 'recent' ? 'No changes yet' : 'Nothing here'}</div>`;
+    $('.grid').innerHTML = vis.length ? vis.map(i => `<div class="card ${state[i.key] ? '' : 'off'}" data-k="${esc(i.key)}"><div class="ph"><img loading="lazy" decoding="async" src="${esc(thumb(i.img))}"><a class="open" href="${esc(i.url)}" target="_blank" title="Open product">View</a><div class="mark">${state[i.key] ? '✓' : '×'}</div></div><div class="meta"><div class="nm">${esc(i.name)}</div><div class="row"><span>${esc(i.size)}</span><b>${money(i.price)}</b></div>${rec ? `<div class="when">${state[i.key] ? 'kept' : 'removing'} · ${ago(rec.get(i.key))}</div>` : ''}</div></div>`).join('') : `<div class="empty">${view === 'recent' ? 'No changes yet' : 'Nothing here'}</div>`;
     $('.scroller').scrollTop = top;
     const kept = items.filter(i => state[i.key]);
     $('.k').textContent = kept.length; $('.t').textContent = money(kept.reduce((s, i) => s + i.price, 0)); $('.r').textContent = items.length - kept.length;
