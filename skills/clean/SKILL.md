@@ -29,7 +29,11 @@ each time.
 4. Prefer the small sharp version over ceremony.
 5. UI work: only after they like the UI (`ui-only`). Use `ui-system` for
    primitives.
-6. On the PR: title/body describe the change as a whole (a short intro), not a
+6. Refactor forward. A migration lands whole: every caller moved, and the old
+   path, its fallback, its shims and its tests deleted in the same change. If
+   it's too big for one pass, fan it out and land it complete; never ship
+   "the rest still go the old way".
+7. On the PR: title/body describe the change as a whole (a short intro), not a
    changelog of steps. Split into topical commits (`pr-update`), run
    `no-tropes` on the text, and link the PR.
 
@@ -39,3 +43,5 @@ each time.
 - Unrelated refactors
 - New abstractions with one caller
 - Scope creep dressed up as cleanup
+- Leave the old way beside the new one: a fallback, a compatibility layer, a
+  deprecated twin, or "migrated later"
